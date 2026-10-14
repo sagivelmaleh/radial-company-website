@@ -1,0 +1,212 @@
+/*
+  Site styles. One file, no build step.
+  Brand tokens live in :root. Change colors and fonts there, not in individual rules.
+  Use logical properties (margin-inline, padding-block, inset-inline-start...)
+  instead of left/right so the same CSS works for Hebrew (RTL) and English (LTR).
+*/
+
+:root {
+  /* Brand colors (proposed; see CLAUDE.md) */
+  --color-primary: #0f2a44;      /* deep navy: headings, header, footer */
+  --color-accent: #0e7c7b;       /* teal: buttons, links */
+  --color-accent-dark: #0a5f5e;  /* hover state */
+  --color-text: #1f2933;
+  --color-muted: #52606d;
+  --color-bg: #ffffff;
+  --color-bg-alt: #f4f6f8;
+  --color-border: #d9e2ec;
+
+  /* Typography. System fonts: fast, no external requests, good Hebrew support. */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Hebrew",
+    "Helvetica Neue", Arial, sans-serif;
+
+  --radius: 8px;
+  --max-width: 1080px;
+  --space: 1rem;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+img { max-width: 100%; height: auto; }
+
+h1, h2, h3 {
+  color: var(--color-primary);
+  line-height: 1.2;
+  margin-block: 0 0.5em;
+}
+h1 { font-size: clamp(2rem, 5vw, 3rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); }
+h3 { font-size: 1.2rem; }
+
+p { margin-block: 0 1em; }
+
+a { color: var(--color-accent); }
+a:hover { color: var(--color-accent-dark); }
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: calc(var(--space) * 1.25);
+}
+.narrow { max-width: 720px; }
+
+/* Accessibility: hidden until focused with the keyboard */
+.skip-link {
+  position: absolute;
+  inset-inline-start: 1rem;
+  inset-block-start: -3rem;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  z-index: 10;
+}
+.skip-link:focus { inset-block-start: 1rem; }
+
+/* Header */
+.site-header {
+  border-block-end: 1px solid var(--color-border);
+  background: var(--color-bg);
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 5;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space);
+  min-height: 64px;
+  flex-wrap: wrap;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.nav-list {
+  display: flex;
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-list a {
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 500;
+}
+.nav-list a:hover { color: var(--color-accent); }
+
+/* Hero */
+.hero {
+  background: var(--color-primary);
+  color: #fff;
+  padding-block: clamp(3.5rem, 10vw, 6.5rem);
+}
+.hero h1 { color: #fff; }
+.hero .lead {
+  font-size: clamp(1.15rem, 2.5vw, 1.4rem);
+  max-width: 40ch;
+  color: #dbe7f3;
+  margin-block-end: 2rem;
+}
+
+.button {
+  display: inline-block;
+  background: var(--color-accent);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: 600;
+}
+.button:hover { background: var(--color-accent-dark); color: #fff; }
+
+/* Sections */
+.section { padding-block: clamp(3rem, 8vw, 5rem); }
+.section-alt { background: var(--color-bg-alt); }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+}
+.card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.card p { color: var(--color-muted); margin: 0; }
+
+/* Contact */
+.contact-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0 0;
+}
+.contact-list dt {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+}
+.contact-list dd { margin: 0.25rem 0 0; font-weight: 500; }
+.contact-list address { font-style: normal; }
+
+/* Footer */
+.site-footer {
+  background: var(--color-primary);
+  color: #c8d6e5;
+  padding-block: 1.75rem;
+  font-size: 0.95rem;
+}
+.site-footer a { color: #fff; }
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+}
+.footer-inner p { margin: 0; }
+
+/* Plain text pages (privacy policy, 404) */
+.page { padding-block: clamp(2.5rem, 6vw, 4rem); }
+.page h2 { margin-block-start: 2rem; }
+.page .updated { color: var(--color-muted); }
+
+@media (max-width: 520px) {
+  .header-inner { padding-block: 0.5rem; }
+  .nav-list { gap: 1rem; }
+}
