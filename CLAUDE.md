@@ -35,6 +35,8 @@ Header and footer are repeated in each HTML page (no templating). When you chang
 - [ ] **Final company name.** "Xordx" is a working name only (2026-10-14); the owners haven't decided. When it changes, replace it everywhere:
   `grep -rl "Xordx" --exclude-dir=.git . | xargs sed -i 's/Xordx/NewName/g'`
   then update the favicon letter in `favicon.svg`, the `og-image.png`, and the GitHub/Cloudflare project names if they used it.
+- [ ] **Content** (services, about, contact details, legal name, company number): deferred by the owners on 2026-10-14. Placeholders are `[[LIKE_THIS]]`.
+- [ ] **Launch switch:** the site is hidden from search engines (`noindex` meta in `index.html` and `privacy.html`, `Disallow: /` in `robots.txt`). Remove both when the content is real.
 - [ ] Domain: not bought yet. All `[[DOMAIN]]` placeholders stay until it is (likely chosen after the final name).
 
 ## Brand guidelines

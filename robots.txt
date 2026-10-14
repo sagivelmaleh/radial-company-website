@@ -1,4 +1,6 @@
+# PRE-LAUNCH: blocks search engines while the site has placeholder content.
+# At launch, replace "Disallow: /" with "Allow: /" and remove the noindex meta tags.
 User-agent: *
-Allow: /
+Disallow: /
 
 Sitemap: https://[[DOMAIN]]/sitemap.xml
