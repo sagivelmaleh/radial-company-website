@@ -4,96 +4,100 @@ Guidance for Claude Code (and humans) working on this repository.
 
 ## Purpose
 
-This is the public website of [[LEGAL_NAME]]. Its main job is to show potential customers that the business is real and trustworthy: who we are, what we do, and how to reach us. Clarity and credibility matter more than visual effects.
+This is the public website of VEERO (legal entity: [[LEGAL_NAME]]), a data company. Its job is to show potential customers that the business is real and trustworthy and to make the next step obvious: understand the offer, find a relevant service, understand the method, start a conversation.
+
+**The design and copy follow `docs/VEERO_Brand_Book_Website_Specification.pdf` (Edition 1.0).** Read it before changing design or copy. Its colors, font, wordmark and all page copy are *proposed* values pending owner confirmation.
 
 ## Tech rules (decided, do not change without asking)
 
-- **Plain static HTML and CSS.** No framework (no React, Vue, Astro, Tailwind, etc.), no npm, no build step. Every file in the repo is served as-is.
-- **JavaScript only where genuinely needed**, as small vanilla JS files in `assets/js/`. The site currently uses none.
-- **Hosting:** Cloudflare Pages, connected to the private GitHub repo. Build command: none. Output directory: repo root (`/`).
-- **Server-side logic** (only if ever needed, e.g. a contact form handler) goes in `functions/` as a Cloudflare Pages Function. Do not add other backends.
-- No third-party trackers, analytics or cookie banners unless the owners ask. If analytics is requested, prefer Cloudflare Web Analytics (cookie-free).
-- Keep it fast: no web fonts unless the brand needs one, compress images, set `width`/`height` on `<img>`.
+- **Plain static HTML and CSS.** No framework, no npm, no build step. Every file is served as-is.
+- **JavaScript only where genuinely needed.** Currently one file: `assets/js/menu.js` (the mobile Menu button). The site works without it.
+- **Hosting:** Cloudflare Pages via **Direct Upload** (zip or folder drag-and-drop). The GitHub repo is the master copy. When uploading, include only the public files (not `docs/`, `README.md`, `CLAUDE.md`).
+- **Server-side logic** (only if ever needed, e.g. a contact form) goes in `functions/` as a Cloudflare Pages Function.
+- No third-party trackers, analytics or cookie banners unless the owners ask.
+- Fonts are self-hosted (`assets/fonts/`). Do not load Google Fonts or other CDNs.
 
 ## File map
 
+Clean URLs: each page is a folder with an `index.html` (e.g. `/services/data-strategy/`).
+
 | Path | What it is |
 | --- | --- |
-| `index.html` | Home page: hero, services, about, contact |
-| `privacy.html` | Privacy policy (legally sensitive, see below) |
-| `404.html` | Not-found page (Cloudflare Pages serves it automatically) |
-| `assets/css/styles.css` | All styles. Brand tokens are CSS variables at the top in `:root` |
-| `assets/img/` | Images, including `og-image.png` (1200×630 social preview) |
-| `favicon.svg` | Favicon / logo mark |
-| `_headers` | Cloudflare security and caching headers |
+| `index.html` | Home: hero, value blocks, services, method, closing CTA |
+| `services/index.html` | Services hub (4 cards) |
+| `services/{data-strategy,data-engineering,analytics,applied-ai}/` | Service detail pages |
+| `approach/`, `about/`, `contact/` | Core pages |
+| `privacy/`, `accessibility/` | Legal/utility pages (drafts, see below) |
+| `404.html` | Not-found page (Cloudflare serves it with HTTP 404) |
+| `assets/css/styles.css` | All styles. Brand tokens are CSS variables in `:root` |
+| `assets/js/menu.js` | Mobile menu toggle |
+| `assets/fonts/` | Inter variable font (WOFF2) + its OFL license |
+| `assets/img/data-field-dark.svg` | Decorative "Data as Art" field used in the home hero |
+| `assets/img/og-image.png` | 1200×630 social preview |
+| `favicon.svg` | Provisional favicon (lime dot, not a monogram) |
+| `_headers`, `_redirects` | Cloudflare headers and redirects |
 | `robots.txt`, `sitemap.xml` | Search engine files. Add new pages to `sitemap.xml` |
+| `docs/` | Brand book PDF. Not part of the public site |
 
-Header and footer are repeated in each HTML page (no templating). When you change one, change it on every page.
+The header and footer are repeated in every HTML file (no templating). When you change one, change it on every page: `grep -rl 'class="site-header' --include=*.html .`
 
-## Open decisions
+## Brand rules (summary of the brand book)
 
-- [ ] **Final company name.** "Xordx" is a working name only (2026-10-14); the owners haven't decided. When it changes, replace it everywhere:
-  `grep -rl "Xordx" --exclude-dir=.git . | xargs sed -i 's/Xordx/NewName/g'`
-  then update the favicon letter in `favicon.svg`, the `og-image.png`, and the GitHub/Cloudflare project names if they used it.
-- [ ] **Content** (services, about, contact details, legal name, company number): deferred by the owners on 2026-10-14. Placeholders are `[[LIKE_THIS]]`.
-- [ ] **Launch switch:** the site is hidden from search engines (`noindex` meta in `index.html` and `privacy.html`, `Disallow: /` in `robots.txt`). Remove both when the content is real.
-- [ ] Domain: not bought yet. All `[[DOMAIN]]` placeholders stay until it is (likely chosen after the final name).
-
-## Brand guidelines
-
-**Colors** (defined once in `assets/css/styles.css` `:root`; change them there):
+**Colors** (`assets/css/styles.css` `:root`):
 
 | Token | Hex | Use |
 | --- | --- | --- |
-| `--color-primary` | `#0f2a44` | Deep navy: headings, hero, footer |
-| `--color-accent` | `#0e7c7b` | Teal: buttons, links |
-| `--color-accent-dark` | `#0a5f5e` | Hover state |
-| `--color-text` | `#1f2933` | Body text |
-| `--color-muted` | `#52606d` | Secondary text |
-| `--color-bg-alt` | `#f4f6f8` | Alternating section background |
+| `--veero-dark` | `#111A16` | Forest black: hero, header, footer, closing CTA |
+| `--veero-ink` | `#17211C` | Body text, headings |
+| `--veero-lime` | `#C7F36B` | Signal lime: the word "impact" on dark, primary buttons. **Never as text on light backgrounds** |
+| `--veero-paper` | `#F7F8F4` | Page background |
+| `--veero-soft` | `#F3F9E9` | Quiet tinted surface |
+| `--veero-muted` | `#59665D` | Secondary text, control borders |
+| `--veero-green` | `#456326` | Links on light; "impact" in light headlines |
+| `--veero-line` | `#D7DED3` | Hairlines, card borders |
 
-Keep text contrast at WCAG AA (4.5:1) or better.
+Roughly 75-85% neutral surfaces, 10-20% dark areas, at most 5% lime. The wordmark and nav stay neutral; lime is for emphasis and actions.
 
-**Fonts:** the system font stack (`--font-sans`). It's fast, needs no external requests, and renders Hebrew well. If a brand font is adopted later, self-host it in `assets/fonts/`.
+**Type:** Inter only, weights 400-600 (700 for the wordmark). Sentence case. Uppercase only for short eyebrows (0.08em tracking).
 
-**Tone of voice:** clear, confident, plain-spoken. Short sentences. Say concretely what we do. No hype ("world-class", "revolutionary"), no jargon, no exclamation marks.
+**Wordmark:** "VEERO" typeset in Inter Bold until the official SVG logo is supplied. Don't invent a symbol or monogram.
 
-**Logo:** Text wordmark: the company name in bold `--color-primary`. The favicon is the company initial on navy (decided 2026-10-14). `favicon.svg` is currently a placeholder mark.
+**Art direction ("Data as Art"):** only dots, circles and squares, quiet and low-opacity, with large empty areas. **Never:** architecture, buildings, glass panels, glassmorphism, waves, ribbons, blobs, neon, "AI brain" imagery, or decorative charts that look like real data. Motion: none by default.
+
+**Lime wash:** the subtle radial gradient `--wash`, used only on page intros. Max one per viewport, never behind long text, cards or buttons.
+
+**Voice:** precise, calm, capable. Direct verbs (define, connect, build, explain, improve). Lead with the business question. "We" for our work, "you" for the client. Avoid hype ("unparalleled synergy", "guaranteed ROI").
 
 ## Do not change without asking the owners
 
-These are legal or factual details. Never edit, invent, or "improve" them on your own:
-
-- Legal company name: **[[LEGAL_NAME]]**
-- Company number (ח.פ.): **[[COMPANY_NUMBER]]**
-- Address, phone and email: **[[ADDRESS]]**, **[[PHONE_DISPLAY]]**, **[[EMAIL]]**
-- `privacy.html` content (Israeli privacy law applies; changes need review)
+- Legal company name **[[LEGAL_NAME]]**, company number (ח.פ.) **[[COMPANY_NUMBER]]**, address, phone and email
+- Privacy and accessibility page content
+- The service list and scope. The four services are the brand book's *assumption*, not yet confirmed by the owners
 - The domain in canonical/OG URLs and `sitemap.xml`
 
-Also never invent facts: no made-up clients, numbers, testimonials, awards, certifications or years of experience. If content is missing, leave a `[[PLACEHOLDER]]` and ask.
+**Never invent facts:** no metrics, customer names, logos, testimonials, certifications, team bios, founding dates or case-study results. The brand book's publication rule: hide unsupported proof modules rather than filling them. That is why there are no Work or Insights pages and no team section yet.
 
-The company number must stay visible in both the contact section and the footer of every page.
+## Open decisions
 
-## Language and RTL
-
-The site is **English only** (decided 2026-10-14). If Hebrew is ever added, put it at `/he/` with `lang="he" dir="rtl"` on `<html>`.
-
-The CSS uses logical properties (`margin-inline`, `padding-block`, `inset-inline-start`, etc.) so it works in both directions. Keep it that way: never use `left`/`right`, `margin-left`, `padding-right` or `text-align: left`. Wrap phone numbers, company numbers and emails inside Hebrew text in `dir="ltr"` so they don't get scrambled.
+- [ ] **Confirm the brand:** palette, Inter, and the provisional wordmark (official logo SVG + favicon still to come).
+- [ ] **Confirm services and all copy.** Note: earlier the owners described the business as "collecting alternative data for businesses"; the brand book describes data strategy, engineering, analytics and applied AI. Reconcile before launch.
+- [ ] **Legal and contact details:** legal name, company number, address, phone, email (all still `[[PLACEHOLDERS]]`).
+- [ ] **Contact form:** owners chose no form for now; `/contact/` shows email and phone. The brand book specifies a form (fields and copy on p.15 and p.30) if one is added later, via a Pages Function.
+- [ ] **Work and Insights pages:** add only when real, approved case studies or articles exist (brand book p.27-29).
+- [ ] **Launch switch:** pages carry `noindex` and `robots.txt` has `Disallow: /`. Remove both when the content is approved.
+- [ ] **Domain:** not bought yet.
 
 ## Workflow
 
 1. Create a branch: `git checkout -b short-description`
-2. Make the change and preview locally: `python3 -m http.server 8000`, then open http://localhost:8000
-3. Commit and push the branch: `git push -u origin short-description`
-4. Cloudflare builds a preview at `https://short-description.<project>.pages.dev`. Check it on desktop **and** mobile.
-5. Open a pull request on GitHub and merge to `main` when it looks right. **Merging to `main` publishes the live site.**
-
-Never commit directly to `main`.
+2. Preview locally: `python3 -m http.server 8000`, then open http://localhost:8000
+3. Commit, push the branch, open a pull request, merge to `main`.
+4. To publish: in Cloudflare, go to the Pages project, choose **Create deployment**, and upload the public files (or the zip Claude prepares).
 
 ## Before every merge, check
 
-- Every page still shows the legal name, company number and privacy link in the footer
-- No `[[PLACEHOLDER]]` text left: `grep -rn "\[\[" --include=*.html .`
-- Page looks right at phone width (~375px)
-- Links work and images have `alt` text
-- `<title>`, `meta description` and Open Graph tags are set on any new page
+- Header and footer are identical on all pages; footer shows the legal name and company number
+- No unintended `[[PLACEHOLDER]]`: `grep -rn "\[\[" --include=*.html .`
+- Page works at 320 px and 375 px wide with no horizontal scroll, and the Menu button opens and closes (Escape too)
+- Lime is never used for text on a light background
+- Every new page has a unique `<title>`, meta description and Open Graph tags, and is listed in `sitemap.xml`

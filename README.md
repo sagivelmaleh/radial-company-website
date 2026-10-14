@@ -1,4 +1,4 @@
-# Xordx website
+# VEERO website
 
 The public website of [[LEGAL_NAME]]. Plain static HTML and CSS, hosted on Cloudflare Pages. No framework, no build step.
 
@@ -55,7 +55,12 @@ To check mobile layout, open your browser's developer tools (F12) and turn on th
 
 On a free personal account, collaborators get write access, which is what they need.
 
-### 3. Connect Cloudflare Pages
+### 3. Publish on Cloudflare Pages
+
+**Current setup: Direct Upload.** Workers & Pages → Create → Pages → **Upload assets**, name the project, and upload the site zip (public files only: everything except `docs/`, `README.md`, `CLAUDE.md`, `.git`). For later changes: open the project → **Create deployment** → upload the new zip. Note: a Direct Upload project can't be switched to Git later; you'd create a new Git-connected project and move the domain.
+
+**Alternative: connect the GitHub repo** (automatic deploys and branch previews):
+
 
 1. Create a free account at https://dash.cloudflare.com (if you don't have one).
 2. **Workers & Pages** → **Create** → **Pages** tab → **Connect to Git**.
@@ -138,7 +143,7 @@ Setting SPF, DKIM and DMARC matters: without them, your emails are likely to lan
 ### 7. Before going live
 
 - [ ] No `[[PLACEHOLDER]]` text left: `grep -rn "\[\[" --include=*.html --include=*.xml --include=*.txt .`
-- [ ] `assets/img/og-image.png` (1200×630) and `assets/img/apple-touch-icon.png` (180×180) exist
+- [ ] `assets/img/og-image.png` uses the approved logo, and an `apple-touch-icon.png` (180×180) is added once the favicon is final
 - [ ] Privacy policy reviewed
 - [ ] Test a shared link at https://www.opengraph.xyz
 - [ ] Run Lighthouse (Chrome DevTools → Lighthouse) on the live site
