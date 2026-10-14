@@ -30,6 +30,13 @@ This is the public website of [[LEGAL_NAME]]. Its main job is to show potential 
 
 Header and footer are repeated in each HTML page (no templating). When you change one, change it on every page.
 
+## Open decisions
+
+- [ ] **Final company name.** "Xordx" is a working name only (2026-10-14); the owners haven't decided. When it changes, replace it everywhere:
+  `grep -rl "Xordx" --exclude-dir=.git . | xargs sed -i 's/Xordx/NewName/g'`
+  then update the favicon letter in `favicon.svg`, the `og-image.png`, and the GitHub/Cloudflare project names if they used it.
+- [ ] Domain: not bought yet. All `[[DOMAIN]]` placeholders stay until it is (likely chosen after the final name).
+
 ## Brand guidelines
 
 **Colors** (defined once in `assets/css/styles.css` `:root`; change them there):
@@ -49,7 +56,7 @@ Keep text contrast at WCAG AA (4.5:1) or better.
 
 **Tone of voice:** clear, confident, plain-spoken. Short sentences. Say concretely what we do. No hype ("world-class", "revolutionary"), no jargon, no exclamation marks.
 
-**Logo:** [[LOGO_STATUS]]. `favicon.svg` is currently a placeholder mark.
+**Logo:** Text wordmark: the company name in bold `--color-primary`. The favicon is the company initial on navy (decided 2026-10-14). `favicon.svg` is currently a placeholder mark.
 
 ## Do not change without asking the owners
 
@@ -67,7 +74,7 @@ The company number must stay visible in both the contact section and the footer 
 
 ## Language and RTL
 
-[[LANGUAGE_DECISION]]
+The site is **English only** (decided 2026-10-14). If Hebrew is ever added, put it at `/he/` with `lang="he" dir="rtl"` on `<html>`.
 
 The CSS uses logical properties (`margin-inline`, `padding-block`, `inset-inline-start`, etc.) so it works in both directions. Keep it that way: never use `left`/`right`, `margin-left`, `padding-right` or `text-align: left`. Wrap phone numbers, company numbers and emails inside Hebrew text in `dir="ltr"` so they don't get scrambled.
 

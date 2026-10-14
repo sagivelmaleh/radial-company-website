@@ -1,4 +1,4 @@
-# [[COMPANY_NAME]] website
+# Xordx website
 
 The public website of [[LEGAL_NAME]]. Plain static HTML and CSS, hosted on Cloudflare Pages. No framework, no build step.
 
